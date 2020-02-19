@@ -1,47 +1,74 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:login_bloc/bloc/bloc.dart';
+// import 'package:login_bloc/bloc/provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key key}) : super(key: key);
+  // final bloc = Bloc();
 
-  @override
+  @override 
   Widget build(BuildContext context) {
+    final bloc = Provider.of<Bloc>(context);
     return Container(
       margin: EdgeInsets.all(20.0),
       child: Column(
         children: <Widget>[
-          emailField(),
-          passwordField(),
+          emailField(bloc),
+          passwordField(bloc),
           Container(margin: EdgeInsets.only(top: 25.0),),
-          submitButton()
+          submitButton(bloc),
         ]
       ),
     );
   }
 
-  Widget emailField(){
-    return TextField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        hintText:'you@example.com',
-        labelText:'Email',
-        errorText:''
-      )
+  Widget emailField(Bloc bloc){
+    return StreamBuilder(
+      stream:bloc.email,
+      builder: (context,snapshot){
+
+        return TextField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                hintText:'you@example.com',
+                labelText:'Email',
+                errorText:snapshot.error,
+              ),
+              onChanged: bloc.changeEmail
+            );
+
+      },
     );
   }
 
-  Widget passwordField(){
-    return TextField(
-      decoration: InputDecoration(
-        labelText:'Contraseña',
-        hintText:'Contraseña'
-      )
-    );
+  Widget passwordField(Bloc bloc){
+    return StreamBuilder(
+      stream: bloc.password,
+      builder: (context,snatshot){
+            return TextField(
+          decoration: InputDecoration(
+            labelText:'Contraseña',
+            hintText:'Contraseña',
+            errorText: snatshot.error,
+          ),
+          onChanged: bloc.changePassword
+        );
+      }
+      );
+    
   }
 
-  Widget submitButton(){
-    return RaisedButton(
-      child: Text('Enviar'),
-      onPressed: (){},
+  Widget submitButton(Bloc bloc){
+    return StreamBuilder(
+      stream: bloc.submitValid,
+      builder: (context,snapshot){
+        return RaisedButton(
+          child: Text('Enviar'),
+          onPressed: snapshot.hasData ? bloc.submit : null,
+        );  
+      },
     );
   }
 
