@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterchat_app/src/screens/chat_screen.dart';
 import 'package:flutterchat_app/src/screens/registration_screen.dart';
 import 'package:flutterchat_app/src/screens/welcome_screem.dart';
 import 'package:flutterchat_app/src/screens/login_screen.dart';
@@ -18,6 +19,7 @@ void main() {
      LoginScreen.routeName: (BuildContext context)=>LoginScreen(),
      WelcomeScreen.routeName: (BuildContext context)=>WelcomeScreen(),
      RegistrationScreen.routeName:(BuildContext context)=>RegistrationScreen(),
+     ChatScreen.routeName:(BuildContext context)=>ChatScreen(),
    },
   ));
 }
