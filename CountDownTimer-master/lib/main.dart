@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         iconTheme: IconThemeData(
-          color: Colors.white,
+          color: Colors.blue,
         ),
         accentColor: Colors.red,
       ),
@@ -25,41 +25,47 @@ class CountDownTimer extends StatefulWidget {
   _CountDownTimerState createState() => _CountDownTimerState();
 }
 
-class _CountDownTimerState extends State<CountDownTimer>
-    with TickerProviderStateMixin {
+class _CountDownTimerState extends State<CountDownTimer> with TickerProviderStateMixin {
   AnimationController controller;
-
   String get timerString {
     Duration duration = controller.duration * controller.value;
-    return '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+    return '${duration.inHours.toString().padLeft(2, '0')}:${(duration.inMinutes % 60).toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
   }
+  int tiempo=4000;
 
   @override
   void initState() {
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 120),
+      duration: Duration(seconds: tiempo),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: Colors.amber,  
       body: AnimatedBuilder(
           animation: controller,
           builder: (context, child) {
             return Stack(
               children: <Widget>[
                 Align(
-                  alignment: Alignment.bottomCenter,
+                  // alignment: Alignment.bottomCenter,
+                  alignment: Alignment.bottomRight,
                   child:
                   Container(
-                    color: Colors.amber,
-                    height:
-                    controller.value * MediaQuery.of(context).size.height,
+                    color: Colors.white,
+                    width: controller.value * MediaQuery.of(context).size.width,
+                    // height: controller.value * MediaQuery.of(context).size.height,
                   ),
                 ),
                 Padding(
@@ -78,7 +84,7 @@ class _CountDownTimerState extends State<CountDownTimer>
                                   child: CustomPaint(
                                       painter: CustomTimerPainter(
                                         animation: controller,
-                                        backgroundColor: Colors.white,
+                                        backgroundColor: Colors.green,
                                         color: themeData.indicatorColor,
                                       )),
                                 ),
@@ -90,17 +96,17 @@ class _CountDownTimerState extends State<CountDownTimer>
                                     crossAxisAlignment:
                                     CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      Text(
-                                        "Count Down Timer",
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: Colors.white),
-                                      ),
+                                      // Text(
+                                      //   "Count Down Timer",
+                                      //   style: TextStyle(
+                                      //       fontSize: 20.0,
+                                      //       color: Colors.white),
+                                      // ),
                                       Text(
                                         timerString,
                                         style: TextStyle(
-                                            fontSize: 112.0,
-                                            color: Colors.white),
+                                            fontSize: 12.0,
+                                            color: Colors.black),
                                       ),
                                     ],
                                   ),
@@ -116,9 +122,11 @@ class _CountDownTimerState extends State<CountDownTimer>
                             return FloatingActionButton.extended(
                                 onPressed: () {
                                   if (controller.isAnimating)
-                                    controller.stop();
+                                  controller.value=1.0;
+                                    // controller.stop();
                                   else {
-                                    controller.reverse(
+                                    
+                                    controller.reverse( 
                                         from: controller.value == 0.0
                                             ? 1.0
                                             : controller.value);

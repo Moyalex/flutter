@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Mar 13 11:20:31 CST 2020
+#Mon Mar 30 17:25:25 CST 2020
 4.path=flutter_assets/fonts/MaterialIcons-Regular.ttf
 8.set=NATIVE_RESOURCE
 6.path=flutter_assets/LICENSE
